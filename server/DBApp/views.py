@@ -1,3 +1,4 @@
+from urllib import response
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework import generics
@@ -158,6 +159,19 @@ def EsperienzeSave(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+@api_view(['GET', 'POST'])
+def Signin(request, pk):
+
+    username = teams.objects.get(username=pk)
+    psw = teams.object.get(psw=pk)
+    #usernameSir = teamsSerializer(username, many=False)
+    #pswSir = teamsSerializer(psw, many=False)
+
+    serializefrontusername = teamsSerializer(data=request.data)
+
+    if (username == serializefrontusername.username):
+        return Response(200)
 
 
 

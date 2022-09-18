@@ -19,7 +19,7 @@ urlpatterns = [
 
 
     #API POST
-    path('saveTeam/', views.teamsSave, name='teamsSave'),
+    path('team/applicant/new/submit', views.teamsSave, name='team/applicant/new/submit'),
     path('saveBackUpPerson/', views.backUpPersonSave, name='backUpPersonSave'),
     path('JobSave/', views.JobSave, name='JobSave'),
     path('EsperienzeSave/', views.EsperienzeSave, name='EsperienzeSave'),
