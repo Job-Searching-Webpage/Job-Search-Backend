@@ -15,9 +15,8 @@ class spotlights(models.Model):
 
 class teams (models.Model):
 
-    id = models.PositiveIntegerField(primary_key=True)
-
     CF = models.CharField(max_length=300)
+    id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(max_length=300)
     cognome = models.CharField(max_length=300)
     dataNascita = models.CharField(max_length=300)
@@ -30,7 +29,7 @@ class teams (models.Model):
     email = models.CharField(max_length=300)
     languages = models.CharField(max_length=300)
     patenta = models.CharField(max_length=300)
-    car = models.BooleanField()
+    car = models.CharField(max_length=300)
     qualification = models.CharField(max_length=300)
 
 
