@@ -27,4 +27,12 @@ urlpatterns = [
     #signin check
     path ('signin/', views.Signin, name='signin'),
 
+
+
+    path('getTeamID_By_CF/<str:pk>/', views.getTeamID_By_CF, name='getTeamID_By_CF'),
+
+
+    path('getExperienceById/<int:pk>/', views.getExperienceById, name='getExperienceById'),
+    path('getBackUpById/<int:pk>/', views.getBackUpById, name='getBackUpById'),
+
 ]

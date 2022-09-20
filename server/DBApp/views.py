@@ -75,8 +75,8 @@ def jobsGetAll(request):
 
     jobss = jobs.objects.all()
 
-    def parse_string_array(s):
-        return [word.strip() for word in s.replace("\"", "").split(",\r\n")]
+    #def parse_string_array(s):
+    #    return [word.strip() for word in s.replace("\"", "").split(",\r\n")]
 
     return Response([{
         'id': job.id,
@@ -142,11 +142,7 @@ def teamsSave(request):
 
 @api_view(['POST'])
 def backUpPersonSave(request):
-    print(request.data)
-    cod = request.data['CF_BC_person']
-    
-    if(backUpPerson.objects.filter(CF_BC_person=cod).exists()):
-        return Response(status=status.HTTP_409_CONFLICT)
+
     serializer = backUpPersonSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -170,7 +166,7 @@ def JobSave(request):
         'dateAdded' : request.data.get("dateAdded")
     }
 
-    print(ParsedData)
+    #print(ParsedData)
 
     serializer = jobsSerializer(data=ParsedData)
 
@@ -182,6 +178,7 @@ def JobSave(request):
 
 @api_view(['POST'])
 def EsperienzeSave(request):
+
     serializer = esperienzeSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -203,3 +200,24 @@ def Signin(request):
             return Response("wrong password", status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response("wrong username", status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+@api_view(['GET'])
+def getTeamID_By_CF(request, pk):
+
+    team = teams.objects.get(CF=pk)
+    serializer = teamsSerializer(team, many=False)
+    return Response(serializer.data.get("id"))
+
+@api_view(['GET'])
+def getExperienceById(request, pk):
+    exp = esperienze.objects.get(workerId=pk)
+    serializer = esperienzeSerializer(exp, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getBackUpById(request, pk):
+    backUp = backUpPerson.objects.get(workerId=pk)
+    serializer = backUpPersonSerializer(backUp, many=False)
+    return Response(serializer.data)

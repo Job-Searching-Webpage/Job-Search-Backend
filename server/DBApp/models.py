@@ -42,8 +42,9 @@ class teams (models.Model):
 
 class esperienze(models.Model):
     
-    CF_esperienze = models.CharField(max_length=300)
-    id = models.PositiveIntegerField(primary_key=True)
+    workerId = models.PositiveIntegerField()
+
+    id = models.AutoField(primary_key=True)
     azienda = models.CharField(max_length=300)
     periodo = models.CharField(max_length=300)
     duties = models.CharField(max_length=300)
@@ -53,9 +54,14 @@ class esperienze(models.Model):
     def __str__(self):
         return self.azienda
 
+    class Meta:
+        managed = True
+
 class backUpPerson(models.Model):
+
     CF_BC_person = models.CharField(max_length=300)
-    id = models.PositiveIntegerField(primary_key=True)
+    workerId = models.PositiveIntegerField()
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=300)
     cognome = models.CharField(max_length=300)
     email = models.CharField(max_length=300)
