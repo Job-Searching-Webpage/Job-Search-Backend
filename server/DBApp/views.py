@@ -208,16 +208,17 @@ def getTeamID_By_CF(request, pk):
 
     team = teams.objects.get(CF=pk)
     serializer = teamsSerializer(team, many=False)
-    return Response(serializer.data.get("id"))
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getExperienceById(request, pk):
-    exp = esperienze.objects.get(workerId=pk)
-    serializer = esperienzeSerializer(exp, many=False)
+    print(pk)
+    exp = esperienze.objects.filter(workerId=pk)
+    serializer = esperienzeSerializer(exp, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def getBackUpById(request, pk):
-    backUp = backUpPerson.objects.get(workerId=pk)
-    serializer = backUpPersonSerializer(backUp, many=False)
+    backUp = backUpPerson.objects.filter(workerId=pk)
+    serializer = backUpPersonSerializer(backUp, many=True)
     return Response(serializer.data)
