@@ -35,12 +35,15 @@ class teams (models.Model):
 
     def __str__(self):
         return self.name + " " + self.cognome
-
+    
+    class meta:
+         managed = True
+    
 
 class esperienze(models.Model):
     
+    CF_esperienze = models.CharField(max_length=300)
     id = models.PositiveIntegerField(primary_key=True)
-
     azienda = models.CharField(max_length=300)
     periodo = models.CharField(max_length=300)
     duties = models.CharField(max_length=300)
@@ -50,10 +53,9 @@ class esperienze(models.Model):
     def __str__(self):
         return self.azienda
 
-
 class backUpPerson(models.Model):
+    CF_BC_person = models.CharField(max_length=300)
     id = models.PositiveIntegerField(primary_key=True)
-
     name = models.CharField(max_length=300)
     cognome = models.CharField(max_length=300)
     email = models.CharField(max_length=300)
@@ -61,6 +63,9 @@ class backUpPerson(models.Model):
 
     def __str__(self):
         return self.name
+    # define managed true in meta 
+    class Meta:
+        managed = True
 
 
 class degrees (models.Model):
@@ -75,7 +80,6 @@ class degrees (models.Model):
 class jobs (models.Model):
 
     id = models.PositiveIntegerField(primary_key=True)
-    
     title = models.CharField(max_length=300)
     organization = models.CharField(max_length=300)
     degree = models.CharField(max_length=300)
@@ -92,7 +96,6 @@ class jobs (models.Model):
 
 class dipendenti_user(models.Model):
 
-    user = models.OneToOneField(User ,null = True, on_delete=models.CASCADE)
     id = models.PositiveIntegerField(primary_key=True)
     name = models.CharField(max_length=300)
     cognome = models.CharField(max_length=300)

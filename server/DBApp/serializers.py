@@ -23,9 +23,9 @@ class backUpPersonSerializer(serializers.ModelSerializer):
                     fields = '__all__'
 
 class jobsSerializer(serializers.ModelSerializer):
-               class Meta:
-                    model = jobs
-                    fields = '__all__'
+     class Meta:
+          model = jobs
+          fields = '__all__'
 
 class degreesSerializer(serializers.ModelSerializer):
                class Meta:

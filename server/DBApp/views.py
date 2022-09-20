@@ -7,6 +7,7 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 # serializers import 
 from .serializers import spotlightsSerializer, esperienzeSerializer, teamsSerializer, backUpPersonSerializer, jobsSerializer, degreesSerializer, dipendenti_userSerializer
@@ -26,6 +27,7 @@ def spotlightsGetAll(request):
 
 @api_view(['GET'])
 def esperienzeGetAll(request):
+
     esperienzess = esperienze.objects.all()
     serializer = esperienzeSerializer(esperienzess, many=True)
     
@@ -84,9 +86,9 @@ def jobsGetAll(request):
         'jobType': job.jobType,
         'location': job.location,
                        
-        "minimumQualifications": parse_string_array(job.minimumQualifications),
-        "preferredQualifications": parse_string_array(job.preferredQualifications),
-        "description": parse_string_array(job.description),
+        "minimumQualifications": job.minimumQualifications.split("#"),
+        "preferredQualifications": job.preferredQualifications.split("#"),
+        "description": job.description.split("#"),
         "dateAdded": job.dateAdded,
         } for job in jobss], 
         )
@@ -140,6 +142,11 @@ def teamsSave(request):
 
 @api_view(['POST'])
 def backUpPersonSave(request):
+    print(request.data)
+    cod = request.data['CF_BC_person']
+    
+    if(backUpPerson.objects.filter(CF_BC_person=cod).exists()):
+        return Response(status=status.HTTP_409_CONFLICT)
     serializer = backUpPersonSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -148,10 +155,30 @@ def backUpPersonSave(request):
 
 @api_view(['POST'])
 def JobSave(request):
-    serializer = jobsSerializer(data=request.data)
+
+    print(type(request.data.get('preferredQualifications')))
+    ParsedData = {
+        'id' : request.data.get("id"),
+        'title' : request.data.get("title"),
+        'organization' : request.data.get("organization"),
+        'degree' : request.data.get("degree"),
+        'jobType' : request.data.get("jobType"),
+        'location' : request.data.get("location"),
+        'minimumQualifications' : "# ".join(request.data.get("minimumQualifications")),
+        'preferredQualifications' : "# ".join(request.data.get("preferredQualifications")),
+        'description' : "# ".join(request.data.get("description")),
+        'dateAdded' : request.data.get("dateAdded")
+    }
+
+    print(ParsedData)
+
+    serializer = jobsSerializer(data=ParsedData)
+
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_409_CONFLICT)
 
 @api_view(['POST'])
 def EsperienzeSave(request):
@@ -160,18 +187,19 @@ def EsperienzeSave(request):
         serializer.save()
     return Response(serializer.data)
 
-@api_view(['GET', 'POST'])
-def Signin(request, pk):
 
-    username = teams.objects.get(username=pk)
-    psw = teams.object.get(psw=pk)
-    #usernameSir = teamsSerializer(username, many=False)
-    #pswSir = teamsSerializer(psw, many=False)
+@api_view(['GET'])
+def Signin(request):
 
-    serializefrontusername = teamsSerializer(data=request.data)
+    #take data from frontend
+    username = request.GET.get('username')
+    psw = request.GET.get('psw')
 
-    if (username == serializefrontusername.username):
-        return Response(200)
-
-
-
+    # check if username exists on db
+    if dipendenti_user.objects.filter(username=username).exists():
+        if dipendenti_user.objects.filter(psw=psw).exists():
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response("wrong password", status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return Response("wrong username", status=status.HTTP_401_UNAUTHORIZED)

@@ -19,9 +19,12 @@ urlpatterns = [
 
 
     #API POST
-    path('team/applicant/new/submit', views.teamsSave, name='team/applicant/new/submit'),
+    path('team/applicant/new/submit/', views.teamsSave, name='team/applicant/new/submit/'),
     path('saveBackUpPerson/', views.backUpPersonSave, name='backUpPersonSave'),
     path('JobSave/', views.JobSave, name='JobSave'),
     path('EsperienzeSave/', views.EsperienzeSave, name='EsperienzeSave'),
+
+    #signin check
+    path ('signin/', views.Signin, name='signin'),
 
 ]
