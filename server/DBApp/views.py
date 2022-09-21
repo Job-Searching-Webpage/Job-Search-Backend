@@ -127,9 +127,27 @@ def getJob_by_Id(request, pk):
 
 @api_view(['GET'])
 def getTeam_by_Id(request, pk):
+
     team = teams.objects.get(id=pk)
-    serializer = teamsSerializer(team, many=False)
-    return Response(serializer.data)
+
+    return Response( {
+        'CF': team.CF,
+        'id': team.id,
+        'name': team.name,
+        'cognome': team.cognome,
+        'dataNascita': team.dataNascita,
+        'birthplace': team.birthplace,
+        'nazionalita': team.nazionalita,
+        'address': team.address,
+        'jobType': team.jobType,
+        'period': team.period,
+        'phone': team.phone,
+        'email': team.email,
+        "languages": team.languages.split(", "),
+        'patenta': team.patenta,
+        'car': team.car,
+        'qualification': team.qualification,
+        })
 
 
 @api_view(['POST'])
