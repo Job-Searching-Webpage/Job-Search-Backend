@@ -85,7 +85,7 @@ class degrees (models.Model):
 
 class jobs (models.Model):
 
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=300)
     organization = models.CharField(max_length=300)
     degree = models.CharField(max_length=300)

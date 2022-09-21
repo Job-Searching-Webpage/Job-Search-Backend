@@ -1,3 +1,4 @@
+from errno import ESHLIBVERS
 from urllib import response
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -155,7 +156,9 @@ def teamsSave(request):
     serializer = teamsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -164,7 +167,9 @@ def backUpPersonSave(request):
     serializer = backUpPersonSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -200,7 +205,9 @@ def EsperienzeSave(request):
     serializer = esperienzeSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
