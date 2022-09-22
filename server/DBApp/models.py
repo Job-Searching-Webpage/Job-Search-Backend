@@ -16,7 +16,7 @@ class spotlights(models.Model):
 class teams (models.Model):
 
     CF = models.CharField(max_length=300)
-    id = models.PositiveIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=300)
     cognome = models.CharField(max_length=300)
     dataNascita = models.CharField(max_length=300)

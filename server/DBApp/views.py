@@ -233,7 +233,7 @@ def getTeamID_By_CF(request, pk):
 
     team = teams.objects.get(CF=pk)
     serializer = teamsSerializer(team, many=False)
-    return Response(serializer.data)
+    return Response(serializer.data.get('id'))
 
 @api_view(['GET'])
 def getExperienceById(request, pk):
